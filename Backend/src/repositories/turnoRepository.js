@@ -1,38 +1,41 @@
-const turnos = [];
+import databaseRepository from './databaseRepository.js';
 
 class TurnoRepository {
     findAll() {
-        return turnos.map((turno) => ({ ...turno }));
+        return databaseRepository.read().turnos;
     }
 
     findById(id) {
-        const turno = turnos.find((item) => item.id === id);
-        return turno ? { ...turno } : null;
+        return databaseRepository.read().turnos.find((turno) => turno.id === id) || null;
+    }
+
+    findByClienteId(clienteId) {
+        return databaseRepository.read().turnos
+            .filter((turno) => turno.clienteId === clienteId);
+    }
+
+    findByBarberoId(barberoId) {
+        return databaseRepository.read().turnos
+            .filter((turno) => turno.barberoId === barberoId);
     }
 
     create(turno) {
-        turnos.push(turno);
-        return { ...turno };
+        return databaseRepository.update((data) => {
+            data.turnos.push(turno);
+            return turno;
+        });
     }
 
     update(id, changes) {
-        const index = turnos.findIndex((turno) => turno.id === id);
-        if (index === -1) {
-            return null;
-        }
+        return databaseRepository.update((data) => {
+            const index = data.turnos.findIndex((turno) => turno.id === id);
+            if (index === -1) {
+                return null;
+            }
 
-        turnos[index] = { ...turnos[index], ...changes, id };
-        return { ...turnos[index] };
-    }
-
-    deleteById(id) {
-        const index = turnos.findIndex((turno) => turno.id === id);
-        if (index === -1) {
-            return null;
-        }
-
-        const [deletedTurno] = turnos.splice(index, 1);
-        return { ...deletedTurno };
+            data.turnos[index] = { ...data.turnos[index], ...changes, id };
+            return data.turnos[index];
+        });
     }
 }
 

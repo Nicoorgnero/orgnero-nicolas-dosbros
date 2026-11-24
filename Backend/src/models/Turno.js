@@ -1,5 +1,15 @@
 class Turno {
-    constructor(id, fechaHoraInicio, estado, clienteId, barberoId, servicioId, observaciones) {
+    constructor(
+        id,
+        fechaHoraInicio,
+        estado,
+        clienteId,
+        barberoId,
+        servicioId,
+        observaciones,
+        duracionMinutos,
+        servicioNombre
+    ) {
         this.id = id;
         this.fechaHoraInicio = fechaHoraInicio;
         this.estado = estado;
@@ -7,6 +17,8 @@ class Turno {
         this.barberoId = barberoId;
         this.servicioId = servicioId;
         this.observaciones = observaciones;
+        this.duracionMinutos = duracionMinutos;
+        this.servicioNombre = servicioNombre;
     }
 }
 
